@@ -1,5 +1,5 @@
 {
-    "name": "stream #84 - Turn Off the Dark",
+    "name": "Turn off the dark starter",
     "description": "",
     "dependencies": {
         "device": "*",
@@ -28,5 +28,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
