@@ -160,6 +160,8 @@ let normalThing4 = img`
 
 //turnOffTheDark: ninja must complete
 function turnOffTheDark () {
+    //add code here
+    
     redoTile(myTiles.tile1)
     redoTile(myTiles.tile2)
     redoTile(myTiles.tile3)
@@ -184,35 +186,44 @@ function redoTile (tileImage: Image) {
     tiles.coverAllTiles(tileImage, copiedTile)
 }
 // Vivian touches a monster
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Monster, function (sprite, otherSprite) {
-    game.reset()
-})
-// Battery goes to zero
-statusbars.onZero(StatusBarKind.Health, function (status) {
-    turnOnTheDark()
-})
-// flashlight OFF
-// turnOnTheDark()
-controller.A.onEvent(ControllerButtonEvent.Released, function () {
-    vivian.setImage(img`
-        . f f f f f f f f f f f f . . . 
-        f f f . f f f f f b b f f f . . 
-        f f . f f f f f b b b b f f . . 
-        f f . f f f f b b b b b b b f . 
-        . . . f f f b b b f b b b f f . 
-        . . . f f b b b b b b b b b f . 
-        . . . . f b b b b b b b b b f . 
-        . . . . f c c c c c c c c c f . 
-        . . . . f c c c c c c c c c f . 
-        . . . . f c b b c c c c c c f . 
-        . . . . f c b b c c c c c c f . 
-        . . . . f c c b 8 8 c c c c f . 
-        . . . . . f 8 b 8 8 c c c c f . 
-        . . . . . f f f 8 8 f f f f f . 
-        . . . . . 6 f f f f f f f . . . 
-        . . . . . . f b b b f f b b b . 
+
+//flashlight on
+controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+    if (batteryLife.value > 0) {
+        vivian.setImage(img`
+            . f f f f f f f f f f f f . . .
+            f f f . f f f f f d d f f f . .
+            f f . f f f f f d d d d f f . .
+            f f . f f f f d d d d d d d f .
+            . . . f f f d d d f d d d f f 5
+            . . . f f d d d d d d d d d 5 .
+            . . . . f d d d d d d d d 5 f .
+            . . . . f 2 2 2 2 2 2 2 5 2 f .
+            . . . . f 2 2 2 2 2 2 2 5 2 f .
+            . . . . f 2 d d 2 2 2 5 2 2 f .
+            . . . . f 2 d d 2 2 5 2 2 2 f .
+            . . . . f 2 2 d 8 4 2 2 2 2 f .
+            . . . . . f 8 d 8 4 5 5 5 5 5 5
+            . . . . . f f f 8 4 f f f f f .
+            . . . . . . f f f f 5 5 f . . .
+            . . . . . . f d d d f f 5 5 d .
         `)
+      //ninja add code here
+      
+    }
 })
+//Update battery lifespan
+game.onUpdate(function () {
+   
+})
+
+// Battery goes to zero
+
+
+// flashlight off (A button released)
+
+
+//Do not delete, win condition for vivian.
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile7, function (sprite, location) {
     turnOffTheDark()
     tiles.placeOnRandomTile(sprite, myTiles.tile3)
@@ -239,15 +250,13 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile7, function (sprite, location
     controller.moveSprite(sprite, 0, 0)
 })
 
-
+//Vivian wins, do not delete
 sprites.onDestroyed(SpriteKind.Player, function (sprite) {
     game.over(true)
 })
-/**
- * flashlight ON
- * 
- * Student must add code
- */
+
+
+//On game start
 let nighttimeMonster: Sprite = null
 let daytimeMonster: Sprite = null
 let monster: Sprite = null
@@ -404,8 +413,3 @@ createAllMonsters()
 let batteryLife = statusbars.create(20, 4, StatusBarKind.Health)
 batteryLife.attachToSprite(vivian)
 batteryLife.setColor(6, 15)
-game.onUpdate(function () {
-    if (darkIsOff && !(safeAndSound)) {
-        batteryLife.value += -1
-    }
-})
